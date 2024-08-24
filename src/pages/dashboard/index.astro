@@ -1,0 +1,42 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Basico from '@components/dashboard/Basico.astro';
+
+// funciona con 1
+// const response = await fetch('https://dragonball-api.com/api/characters');
+// const data = await response.json();
+// const randomUser = data.items[1];
+
+// Define el tipo de un personaje
+// Define el tipo de un personaje
+interface Character {
+    id: string;
+    name: string;
+    description?: string;
+    image?: string;
+}
+
+// Hacer la solicitud a la API de Dragon Ball
+const response = await fetch('https://dragonball-api.com/api/characters');
+const data = await response.json();
+
+// Verificar que data.items es un array de objetos de tipo Character
+const characters: Character[] = Array.isArray(data.items) ? data.items : [];
+---
+
+<Layout title="Dashboard">
+    <Basico>
+        <!-- funciona con 1 -->
+        <!-- <h1>Usuario</h1>
+        <h2>{randomUser.name}</h2> -->
+        <h1>Personajes</h1>
+        <!-- Iterar sobre todos los personajes y mostrarlos -->
+        {characters.map((character) => (
+            <div>
+                <h2>{character.name}</h2>
+                <img src={character.image} alt={character.name} style={{ width: '100px', height: '100px' }} />
+                <p>{character.description}</p> <!-- Si hay una descripción -->
+            </div>
+        ))}
+    </Basico>
+</Layout>
